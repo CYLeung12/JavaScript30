@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Understanding JavaScript's Capture</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+
+  <body class="bod">
+
+    <div class="one">
+      <div class="two">
+        <div class="three">
+        </div>
+      </div>
+    </div>
+
+    <style>
+      html {
+        box-sizing: border-box;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      div {
+        width: 100%;
+        padding: 100px;
+      }
+
+      .one {
+        background: thistle;
+      }
+
+      .two {
+        background: mistyrose;
+      }
+
+      .three {
+        background: coral;
+      }
+    </style>
+    <button></button>
+    <script>
+      const divs = document.querySelectorAll('div');
+      const button = document.querySelector('button');
+
+      function logText(e) {
+        console.log(this.classList.value);
+        //e.stopPropagation(); // it will stop buble the event up/down, so when capture: false, if you click three, you will only get three, instead of three > two > one
+
+      }
+
+      divs.forEach(div => div.addEventListener('click', logText, {
+        capture: false, // capture: true, means the the function will run on the way down for wrapped elements, instead of on the way up
+        once: false
+      }));
+
+      button.addEventListener('click', () => {
+        console.log('Click!');
+      }, {
+        once: true // it will only listen the click once, and remove the EventListener. Can be useful for  a CheckOut button where you don't want people to click it agai.
+      });
+    </script>
+  </body>
+
+</html>
